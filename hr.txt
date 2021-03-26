@@ -1,0 +1,59 @@
+create table auto_sal (
+id_s Number(5) PRIMARY KEY,
+city VARCHAR(25),
+street VARCHAR2(25))
+
+alter table auto_sal add constraint chk_id_s check(id_s>=10000 and id_s<=99999)
+alter table auto_sal modify(city not null, street not null)
+--
+
+create table automob (
+id_a Number(10),
+id_s number(5) references auto_sal(id_s),
+mark_a varchar2(25),
+color varchar2(25))
+
+alter table automob add constaint aut_pk primary key(id_a, id_s) enable
+
+alter table auto_sal modify(street varchar2(50))
+
+alter table automob add(country varchar2(50))
+
+alter table auto_sal drop(country)
+
+INSERT INTO auto_sal VALUES (10000,'Краснодар','ул. Ставропольская');
+INSERT INTO auto_sal VALUES (10001,'Краснодар','ул. Северная');
+INSERT INTO auto_sal VALUES (10002,'Краснодар','ул. Школьная');
+INSERT INTO auto_sal VALUES (10003,'Краснодар','ул. Красная');
+INSERT INTO auto_sal VALUES (10004,'Краснодар','ул. Уральская');
+
+create table auto_prok (
+id_p Number(5) PRIMARY KEY,
+taken date default sysdate,
+befor date default sysdate,
+penalty Number(10))
+
+create table a_prok (
+id_p Number(5) PRIMARY KEY,
+taken date default sysdate,
+befor date default sysdate,
+penalty Number(10))
+
+
+
+alter table auto_prok add(returned Number(1))
+alter table auto_prok add(id_s Number(5) references auto_sal(id_s))
+alter table auto_prok add(id_a Number(10) references automob(id_a))
+
+
+
+--insert into ty_tab
+--select * from t_tab
+--
+--delete from ty_tab
+--where id_t<10
+
+--update t_tab set col2=null
+
+--update t_tab set 
+--col2='было null', col3 = sysdate+1 where col2 is null
